@@ -51,7 +51,6 @@ jobs:
       # When CARGO is set to CROSS, this is set to `--target matrix.target`.
       TARGET_FLAGS:
       # When CARGO is set to CROSS, TARGET_DIR includes matrix.target.
-      TARGET_DIR: ./target
       # Emit backtraces on panics.
       RUST_BACKTRACE: 1
     runs-on: ${{ matrix.os }}
@@ -90,7 +89,6 @@ jobs:
           os: macos-latest
           rust: stable
           target: aarch64-apple-darwin
-          cross: false
           skip_tests: true  # x86_64 host can't run aarch64 code
         # - build: x86_64-win-gnu
         #   os: windows-2019
@@ -144,7 +142,6 @@ jobs:
           echo "target flag is: ${{ env.TARGET_FLAGS }}"
 
       - name: Run cargo test
-        if: "!matrix.skip_tests"
         run: ${{ env.CARGO }} test --release --locked --target ${{ matrix.target }} --workspace
 
       - name: Set profile.release.strip = true
